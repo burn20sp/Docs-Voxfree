@@ -9,6 +9,7 @@
 - [Serviço de WebSocket](./firewall-haproxy-websocket.md)
 - [Serviços dedicados a clientes](./firewall-haproxy-clientes.md)
 - [Passo a passo: cadastrar um novo serviço](#passo-a-passo-cadastrar-um-novo-serviço)
+- [Monitoramento e manutenção](#monitoramento-e-manutenção)
 
 ## Visão geral
 
@@ -126,5 +127,48 @@ Detalhamento completo em [firewall-haproxy-clientes.md](./firewall-haproxy-clien
 
 ## Passo a passo: cadastrar um novo serviço
 
-> Pendente — sequência de criação/vínculo dos componentes acima na interface
-> do OPNsense/HAProxy.
+Sequência para cadastrar um novo serviço no HAProxy (ex.: um novo cliente
+dedicado, nos moldes do [agil-torpedo](./firewall-haproxy-clientes.md)):
+
+0. **Certificado** (se aplicável): se o domínio **não** for subdomínio de
+   `voxfree.com` ou `voxfree.com.br` (já cobertos pelos wildcards), gere o
+   certificado no plugin **ACME** do OPNsense antes de continuar.
+1. **Real Server(s)** — `Services > Haproxy > Settings > Real Servers`.
+   Campos principais: Nome, IP e Porta. Se for usar health-check em porta
+   diferente da porta principal do serviço, abra **Advanced** e configure a
+   porta em **Port to check**.
+2. **Health Monitor** (opcional) — `Services > Haproxy > Settings > Rules &
+   Checks > Health Monitor`. Só necessário se o serviço for usar
+   health-check; caso contrário, pule para o próximo passo.
+3. **Backend Pool** — `Services > Haproxy > Settings > Virtual Services >
+   Backend Pools`. Indique o(s) Real Server(s) do passo 1 em **Servers**.
+   Se o serviço usar health-check, marque **Enable Health Checking** e
+   preencha os campos exibidos.
+4. **Condition** — `Services > Haproxy > Settings > Rules & Checks >
+   Conditions`. Define o domínio que originará a regra: em **Condition
+   type**, selecione `hdr`, e informe o domínio em **Host String**.
+5. **Rule** — `Services > Haproxy > Settings > Rules & Checks > Rules`. Em
+   **Select conditions**, escolha a Condition do passo 4. Em **Type**,
+   selecione `Use specified Backend Pool`, e em **Use backend pool**,
+   selecione o Backend Pool do passo 3.
+
+Com isso o encaminhamento já deve ocorrer corretamente.
+
+> ⚠️ **Possível passo faltante**: esta sequência cria os componentes (Real
+> Server → Health Monitor → Backend Pool → Condition → Rule), mas, pelo que
+> documentamos em [Registro obrigatório de domínio e Rule no Public
+> Service](#registro-obrigatório-de-domínio-e-se-houver-rule-no-public-service),
+> o certificado do domínio (se novo) e a Rule criada no passo 5 ainda
+> precisariam ser adicionados manualmente em **Certificates** e **Select
+> Rules** do Public Service (`frontend-app-default`) para o encaminhamento
+> de fato funcionar. Esse vínculo não apareceu nos passos que você descreveu
+> — confirma se falta um passo 6 aqui, ou se ele já é coberto por algum dos
+> passos acima?
+
+## Monitoramento e manutenção
+
+- **Página de estatísticas**: <http://172.16.0.1:8822/haproxy?stats> —
+  permite acompanhar as métricas dos serviços/backends configurados.
+- **Manutenção de Real Server**: para desativar temporariamente o envio de
+  tráfego a um Real Server específico (sem removê-lo da configuração),
+  acesse `Services > Haproxy > Maintenance`.
