@@ -34,7 +34,11 @@
   ativo).
 - **Backend Pools**: agrupamento de RealServers que atende a um Backend.
 - **Public Services**: serviços públicos, atuando na porta 443 (HTTPS), com
-  regra de redirecionamento da porta 80 para a 443.
+  regra de redirecionamento da porta 80 para a 443. **Padrão atual**: todos
+  os serviços (APP, WebSocket, etc.) compartilham o mesmo Public Service
+  `frontend-app-default` como entrada HTTPS — um Public Service dedicado só
+  existe quando um serviço precisa de domínio/certificado ou comportamento
+  próprio.
 - **Health Monitors**: verificações de saúde aplicadas aos RealServers/Pools.
 - **Conditions**: critérios de avaliação (ex.: domínio requisitado, path da
   URL) usados pelas Rules para decidir o roteamento.

@@ -4,14 +4,6 @@
 > conceitos gerais (Public Service, Backend, Rule, Condition, Health
 > Monitor) e o fluxo lógico de dependências.
 
-## Public Service
-
-Não há Public Service dedicado ao WebSocket. Assim como todos os serviços
-atuais, ele entra pelo mesmo `frontend-app-default` (443) — o domínio
-`websocketapp.voxfree.com.br` está coberto pelo wildcard `*.voxfree.com.br`
-já vinculado a esse Public Service. O desvio para o backend correto é feito
-pela Rule `rule_backend_socket` abaixo, com base no Host header.
-
 ## Backend
 
 - **`backend-http-socket`**: backend do WebSocket.

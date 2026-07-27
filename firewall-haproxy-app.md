@@ -10,7 +10,7 @@ Referência interna: **APP** — a aplicação SaaS principal.
 
 | Nome | Porta | Função | Domínio(s) associado(s) |
 |---|---|---|---|
-| `frontend-app-default` | 443 (HTTPS) | Recepciona todo o tráfego HTTPS da aplicação | Qualquer subdomínio coberto pelos dois wildcards padrão (`*.voxfree.com` e `*.voxfree.com.br`), ou domínio ACME configurado no Public Service, desde que sem regra explícita para outro destino |
+| `frontend-app-default` | 443 (HTTPS) | Entrada HTTPS padrão — **compartilhada por todos os serviços atuais**, não exclusiva do APP (ex.: o WebSocket também entra por aqui) | Qualquer subdomínio coberto pelos dois wildcards padrão (`*.voxfree.com` e `*.voxfree.com.br`), ou domínio ACME configurado no Public Service, desde que sem regra explícita para outro destino |
 | `frontend-app-redirect` | 80 (HTTP) | Apenas força o encaminhamento para a 443 | — |
 
 ## Backend
