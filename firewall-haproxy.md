@@ -7,7 +7,7 @@
 - [Fluxo lógico geral (dependências)](#fluxo-lógico-geral-dependências)
 - [Aplicação principal (APP)](./firewall-haproxy-app.md)
 - [Serviço de WebSocket](./firewall-haproxy-websocket.md)
-- Serviços dedicados a clientes — *pendente*
+- [Serviços dedicados a clientes](./firewall-haproxy-clientes.md)
 - [Passo a passo: cadastrar um novo serviço](#passo-a-passo-cadastrar-um-novo-serviço)
 
 ## Visão geral
@@ -44,6 +44,21 @@
   URL) usados pelas Rules para decidir o roteamento.
 - **Rules**: vinculam um Public Service a um Backend, usando uma Condition
   como critério de decisão.
+
+### Registro obrigatório de domínio e Rule no Public Service
+
+Para que um domínio seja respondido corretamente por um Public Service
+HTTPS (ex.: `frontend-app-default`), dois vínculos precisam ser feitos
+manualmente na configuração do Public Service:
+
+1. **Certificates**: o certificado do domínio (wildcard ou ACME) precisa
+   ser adicionado ao campo `Certificates` do Public Service.
+2. **Select Rules**: a Rule que trata esse domínio precisa ser adicionada
+   em `Select Rules` do Public Service.
+
+Essa exigência vale para **todos** os serviços que respondem via HTTPS
+(APP, WebSocket, clientes dedicados, etc.) — sem os dois vínculos, a
+Rule/Condition nunca é avaliada, mesmo que esteja corretamente configurada.
 
 ### Rede interna
 
@@ -105,8 +120,7 @@ Detalhamento completo em [firewall-haproxy-websocket.md](./firewall-haproxy-webs
 
 ## Serviços dedicados a clientes
 
-> Pendente — exemplo representativo de um serviço dedicado a cliente
-> (cenário similar ao de produção, com domínio específico).
+Detalhamento completo em [firewall-haproxy-clientes.md](./firewall-haproxy-clientes.md).
 
 ## Passo a passo: cadastrar um novo serviço
 
