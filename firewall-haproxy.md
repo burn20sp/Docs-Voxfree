@@ -45,20 +45,22 @@
 - **Rules**: vinculam um Public Service a um Backend, usando uma Condition
   como critério de decisão.
 
-### Registro obrigatório de domínio e Rule no Public Service
+### Registro obrigatório de domínio (e, se houver, Rule) no Public Service
 
 Para que um domínio seja respondido corretamente por um Public Service
-HTTPS (ex.: `frontend-app-default`), dois vínculos precisam ser feitos
-manualmente na configuração do Public Service:
+HTTPS (ex.: `frontend-app-default`):
 
-1. **Certificates**: o certificado do domínio (wildcard ou ACME) precisa
-   ser adicionado ao campo `Certificates` do Public Service.
-2. **Select Rules**: a Rule que trata esse domínio precisa ser adicionada
-   em `Select Rules` do Public Service.
-
-Essa exigência vale para **todos** os serviços que respondem via HTTPS
-(APP, WebSocket, clientes dedicados, etc.) — sem os dois vínculos, a
-Rule/Condition nunca é avaliada, mesmo que esteja corretamente configurada.
+1. **Certificates** (sempre obrigatório): o certificado do domínio
+   (wildcard ou ACME) precisa ser adicionado ao campo `Certificates` do
+   Public Service. Sem isso o domínio não é respondido.
+2. **Select Rules** (só se houver encaminhamento dedicado): uma Rule só é
+   necessária quando o domínio precisa ser encaminhado para um Backend
+   diferente do padrão (ex.: servidores internos dedicados, como no caso de
+   clientes dedicados). Se o domínio deve apontar para o pool padrão do APP
+   (os 4 servidores web padrão), basta o certificado — o tráfego já cai no
+   catch-all (`backend-app-default`) sem precisar de Rule/Condition. Quando
+   uma Rule é criada, ela também precisa ser adicionada em `Select Rules`
+   do Public Service, do contrário nunca é avaliada.
 
 ### Rede interna
 

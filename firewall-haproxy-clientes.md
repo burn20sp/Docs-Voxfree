@@ -36,7 +36,7 @@ por cliente. Diferença em relação ao APP/WebSocket: o domínio não está
 sob os wildcards `*.voxfree.com`/`*.voxfree.com.br`, é um domínio do
 próprio cliente (`agiltelecom.com.br`), então precisa de certificado ACME
 próprio adicionado ao `frontend-app-default` — ver
-[registro obrigatório no Public Service](./firewall-haproxy.md#registro-obrigatório-de-domínio-e-rule-no-public-service).
+[registro obrigatório no Public Service](./firewall-haproxy.md#registro-obrigatório-de-domínio-e-se-houver-rule-no-public-service).
 
 ## Backend
 
