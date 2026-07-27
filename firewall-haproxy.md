@@ -30,6 +30,23 @@ conhecimento prévio da configuração atual.
 - **Rules**: vinculam um Public Service a um Backend, usando uma Condition
   como critério de decisão.
 
+### Convenção de nomenclatura observada
+
+Os componentes seguem um padrão por aplicação, o que ajuda a localizar e
+cadastrar novos serviços:
+
+| Componente | Padrão | Exemplo |
+|---|---|---|
+| Public Service (HTTPS, porta 443) | `frontend-{app}-default` | `frontend-app-default` |
+| Public Service (redirect, porta 80) | `frontend-{app}-redirect` | `frontend-app-redirect` |
+| Backend padrão/catch-all | `backend-{app}-default` | `backend-app-default` |
+| RealServer | `http-{app}-{numero}` | `http-app-82` |
+| Rule adicional (fora do padrão default) | `rule_{finalidade}` | `rule_path_gravacoes` |
+
+Todo Public Service HTTPS (443) tem um Public Service irmão na porta 80
+cuja única função é redirecionar para a 443 — esse par se repete para cada
+aplicação/serviço cadastrado.
+
 ## Fluxo lógico geral (dependências)
 
 Sequência de uma requisição até o servidor interno:
@@ -76,8 +93,50 @@ flowchart LR
 
 ## Aplicação principal
 
-> Pendente — aguardando descrição (domínio, Public Service, Rule, Condition,
-> Backend/Pool, RealServers e Health Monitor específicos).
+Referência interna: **APP** — a aplicação SaaS principal.
+
+### Public Services
+
+| Nome | Porta | Função |
+|---|---|---|
+| `frontend-app-default` | 443 (HTTPS) | Recepciona todo o tráfego HTTPS da aplicação |
+| `frontend-app-redirect` | 80 (HTTP) | Apenas força o encaminhamento para a 443 |
+
+### Backend
+
+- **`backend-app-default`**: backend padrão do APP. Referencia os
+  RealServers abaixo e o tráfego é balanceado entre eles.
+- **Comportamento padrão (catch-all)**: todo tráfego que **não** se encaixa
+  em nenhuma regra de domínio explícita cai neste backend — ou seja,
+  `backend-app-default` funciona como destino default do HAProxy.
+- **Health Monitor**: há um health-check específico vinculado a estes
+  RealServers *(nome/parâmetros do monitor — a confirmar)*.
+
+### RealServers
+
+Tráfego balanceado entre os 4 hosts:
+
+| RealServer |
+|---|
+| `http-app-82` |
+| `http-app-83` |
+| `http-app-84` |
+| `http-app-85` |
+
+### Rules
+
+| Rule | Vinculada a | Comportamento |
+|---|---|---|
+| `rule_path_gravacoes` | `backend-app-default` | Redireciona path `/gravacoes/` → `/gravacoesHD/` *(detalhamento adicional a seguir)* |
+
+### Pendências / a confirmar
+
+- Domínio(s) associado(s) ao `frontend-app-default` (wildcard ou ACME
+  específico).
+- Nome/parâmetros do Health Monitor vinculado ao `backend-app-default`.
+- Porta dos RealServers (`http-app-82`..`85`) no destino interno.
+- Condition utilizada pela `rule_path_gravacoes` (detalhamento prometido
+  para uma próxima etapa).
 
 ## Serviço de WebSocket
 
