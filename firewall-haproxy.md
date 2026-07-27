@@ -6,7 +6,7 @@
 - [Conceitos e componentes do plugin](#conceitos-e-componentes-do-plugin)
 - [Fluxo lógico geral (dependências)](#fluxo-lógico-geral-dependências)
 - [Aplicação principal (APP)](./firewall-haproxy-app.md)
-- Serviço de WebSocket — *pendente*
+- [Serviço de WebSocket](./firewall-haproxy-websocket.md)
 - Serviços dedicados a clientes — *pendente*
 - [Passo a passo: cadastrar um novo serviço](#passo-a-passo-cadastrar-um-novo-serviço)
 
@@ -21,9 +21,11 @@
 
 ## Conceitos e componentes do plugin
 
-- **Domínios wildcard**: domínios coringa (ex.: subdomínios de `voxfree.com`
-  e `voxfree.com.br`) já registrados no sistema. **Não são gerenciados pelo
-  HAProxy** — aqui são apenas referenciados/vinculados aos Public Services.
+- **Domínios wildcard**: por padrão, existem **dois** domínios wildcard
+  cadastrados — `*.voxfree.com` e `*.voxfree.com.br` — cobrindo os
+  subdomínios de cada TLD. Já estão registrados no sistema. **Não são
+  gerenciados pelo HAProxy** — aqui são apenas referenciados/vinculados aos
+  Public Services.
 - **Domínios ACME**: domínios com certificado gerenciado por outro plugin
   (ACME), com renovação automática. **Também não são gerenciados pelo
   HAProxy** — igualmente, apenas referenciados/vinculados aos Public
@@ -41,9 +43,10 @@
 
 ### Rede interna
 
-Os IPs locais referenciados nesta documentação seguem a faixa
-`172.16.0.0/24` (ex.: firewall em `172.16.0.1`; RealServers do APP em
-`172.16.0.82`–`172.16.0.85`).
+Os IPs locais referenciados nesta documentação seguem a faixa `172.16.0.X`
+(ex.: firewall em `172.16.0.1`; RealServers do APP em `172.16.0.82`–
+`172.16.0.85`). *(Nota: os RealServers do WebSocket usam `172.17.0.X` — ver
+alerta na página do [WebSocket](./firewall-haproxy-websocket.md).)*
 
 ## Fluxo lógico geral (dependências)
 
@@ -95,8 +98,7 @@ Detalhamento completo em [firewall-haproxy-app.md](./firewall-haproxy-app.md).
 
 ## Serviço de WebSocket
 
-> Pendente — mesma estrutura de componentes da aplicação principal, porém com
-> configuração dedicada.
+Detalhamento completo em [firewall-haproxy-websocket.md](./firewall-haproxy-websocket.md).
 
 ## Serviços dedicados a clientes
 
