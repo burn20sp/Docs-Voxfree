@@ -127,8 +127,24 @@ Detalhamento completo em [firewall-haproxy-clientes.md](./firewall-haproxy-clien
 
 ## Passo a passo: cadastrar um novo serviço
 
-Sequência para cadastrar um novo serviço no HAProxy (ex.: um novo cliente
-dedicado, nos moldes do [agil-torpedo](./firewall-haproxy-clientes.md)):
+> O cadastro do domínio (DNS) e a emissão de certificados são tratados fora
+> do HAProxy (DNS do domínio no provedor; certificado via plugin **ACME**
+> do OPNsense, quando o domínio não é coberto pelos wildcards).
+
+Existem dois cenários, dependendo se o serviço vai usar o pool padrão do
+APP ou precisa de servidor(es) interno(s) dedicado(s):
+
+### Cenário A — domínio do cliente, sem servidor dedicado (usa o pool padrão do APP)
+
+Único passo: adicione o subdomínio no campo **Certificates** do Public
+Service padrão `frontend-app-default` (`Services > Haproxy > Settings >
+Virtual Services > Public Services`). Sem Rule dedicada, o tráfego já cai
+no backend padrão (`backend-app-default`).
+
+### Cenário B — servidor(es) interno(s) dedicado(s)
+
+Ex.: um novo cliente nos moldes do
+[agil-torpedo](./firewall-haproxy-clientes.md).
 
 0. **Certificado** (se aplicável): se o domínio **não** for subdomínio de
    `voxfree.com` ou `voxfree.com.br` (já cobertos pelos wildcards), gere o
@@ -151,19 +167,11 @@ dedicado, nos moldes do [agil-torpedo](./firewall-haproxy-clientes.md)):
    **Select conditions**, escolha a Condition do passo 4. Em **Type**,
    selecione `Use specified Backend Pool`, e em **Use backend pool**,
    selecione o Backend Pool do passo 3.
+6. **Vincular ao Public Service** `frontend-app-default`: além do
+   certificado (mesmo campo **Certificates** do Cenário A), adicione a Rule
+   criada no passo 5 no campo **Select Rules**.
 
 Com isso o encaminhamento já deve ocorrer corretamente.
-
-> ⚠️ **Possível passo faltante**: esta sequência cria os componentes (Real
-> Server → Health Monitor → Backend Pool → Condition → Rule), mas, pelo que
-> documentamos em [Registro obrigatório de domínio e Rule no Public
-> Service](#registro-obrigatório-de-domínio-e-se-houver-rule-no-public-service),
-> o certificado do domínio (se novo) e a Rule criada no passo 5 ainda
-> precisariam ser adicionados manualmente em **Certificates** e **Select
-> Rules** do Public Service (`frontend-app-default`) para o encaminhamento
-> de fato funcionar. Esse vínculo não apareceu nos passos que você descreveu
-> — confirma se falta um passo 6 aqui, ou se ele já é coberto por algum dos
-> passos acima?
 
 ## Monitoramento e manutenção
 
