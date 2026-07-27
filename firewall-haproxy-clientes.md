@@ -9,6 +9,26 @@ Cenário similar ao de produção (APP/WebSocket), porém com domínio
 específico de um cliente. Exemplo representativo: **agil-torpedo**
 (cliente Agil Telecom).
 
+### Quando este cadastro completo é necessário
+
+Este serviço tem **dois** aspectos dedicados ao cliente, não só o domínio:
+
+1. Domínio próprio (`torpedo.agiltelecom.com.br`, fora dos wildcards
+   voxfree).
+2. **Ambiente interno próprio** — servidor(es) dedicado(s), diferente do
+   pool padrão do APP.
+
+Isso importa porque os dois aspectos são independentes: se o cliente
+tivesse só domínio próprio, mas usasse o mesmo grupo de servidores do APP,
+bastaria adicionar o certificado do domínio ao `Certificates` do
+`frontend-app-default` — sem Rule, sem Condition, sem Backend/RealServer
+dedicados. Nesse caso, por não haver Rule específica pra esse domínio, a
+requisição cairia direto no catch-all (`backend-app-default`).
+
+A sequência completa (Backend + RealServer + Rule + Condition dedicados,
+como abaixo) só é necessária quando o cliente tem **domínio próprio E
+servidores internos dedicados** — como é o caso do agil-torpedo.
+
 ## Public Service
 
 Também usa o `frontend-app-default` (443) — não há Public Service dedicado
