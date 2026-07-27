@@ -45,8 +45,7 @@
 
 Os IPs locais referenciados nesta documentação seguem a faixa `172.16.0.X`
 (ex.: firewall em `172.16.0.1`; RealServers do APP em `172.16.0.82`–
-`172.16.0.85`). *(Nota: os RealServers do WebSocket usam `172.17.0.X` — ver
-alerta na página do [WebSocket](./firewall-haproxy-websocket.md).)*
+`172.16.0.85`; RealServers do WebSocket em `172.16.0.101`–`172.16.0.102`).
 
 ## Fluxo lógico geral (dependências)
 

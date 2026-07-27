@@ -6,12 +6,11 @@
 
 ## Public Service
 
-> **A confirmar**: não ficou claro se o WebSocket usa um Public Service
-> próprio (padrão `frontend-{app}-default`/`redirect`) ou se o tráfego
-> entra pelo mesmo `frontend-app-default` (443) do APP e é desviado para o
-> backend do socket via a Rule abaixo, com base no domínio. A segunda
-> hipótese é a mais provável dado que o roteamento é feito por Condition de
-> domínio (`hdr`), mas precisa ser confirmada.
+Não há Public Service dedicado ao WebSocket. Assim como todos os serviços
+atuais, ele entra pelo mesmo `frontend-app-default` (443) — o domínio
+`websocketapp.voxfree.com.br` está coberto pelo wildcard `*.voxfree.com.br`
+já vinculado a esse Public Service. O desvio para o backend correto é feito
+pela Rule `rule_backend_socket` abaixo, com base no Host header.
 
 ## Backend
 
@@ -34,16 +33,11 @@
 
 | RealServer | IP | Porta | Papel |
 |---|---|---|---|
-| `http-socket-01` | 172.17.0.101 | 8283 | Ativo (primário) |
-| `http-socket-02` | 172.17.0.102 | 8283 | Backup |
-
-> ⚠️ **Alerta**: estes hosts estão na faixa `172.17.0.X`, enquanto o
-> restante da documentação (firewall e RealServers do APP) usa
-> `172.16.0.X`. Confirmar se é uma segmentação de rede intencional (ex.:
-> VLAN/sub-rede dedicada ao WebSocket) ou inconsistência a corrigir.
+| `http-socket-01` | 172.16.0.101 | 8283 | Ativo (primário) |
+| `http-socket-02` | 172.16.0.102 | 8283 | Backup |
 
 ## Rules
 
 | Rule | Vinculada a | Condition | Critério | Comportamento |
 |---|---|---|---|---|
-| `rule_backend_socket` | `backend-http-socket` | *(nome não informado)* | Domínio (`hdr`, Host header) = `websocketapp.voxfree.com.br` | Direciona requisições desse domínio para o `backend-http-socket` |
+| `rule_backend_socket` | `backend-http-socket` | `acl_app_socket` | Domínio (`hdr`, Host header) = `websocketapp.voxfree.com.br` | Direciona requisições desse domínio para o `backend-http-socket` |
