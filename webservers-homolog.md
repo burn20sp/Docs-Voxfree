@@ -32,21 +32,47 @@ da branch `homolog` do repositório.
 
 ## Configuração
 
-Idêntica aos servidores de produção:
 - **Runtime**: PHP 7.4.33
 - **Servidor Web**: nginx
 - **Processador PHP**: php-fpm
-- **Storage**: NFS compartilhado (172.16.0.91:/data)
+- **Storage**: Local (não utiliza NFS externo)
 - **Health-check**: `http://<IP>/health`
 
-## Deploy automático
+## Storage local
 
-Quando mudanças são merged na branch `homolog`, o GitHub Actions dispara
-automaticamente o workflow de deploy, atualizando os servidores de homologação.
+Armazenamento de código e arquivos da aplicação é **local** no host
+`http-dev-89`, diferente do ambiente de produção que utiliza NFS
+compartilhado.
 
-## Diferenças com Produção
+## Sessions (Redis)
 
-- **Ambiente**: teste/validação antes de ir para `main`
-- **Branch**: `homolog` (nunca editar diretamente) vs `main`
-- **Hosts**: 1 host (http-dev-89) vs 4 hosts balanceados (web-82-85)
-- **Tráfego**: volume reduzido (ambiente de teste)
+As sessões do PHP são registradas em um servidor Redis centralizado:
+
+| Item | Valor |
+|---|---|
+| **Redis Server** | 172.16.0.81 |
+| **Escopo** | Compartilhado entre homologação e produção |
+
+## Deploy automático (GitHub Actions)
+
+A aplicação é versionada no GitHub, com deploy automático via GitHub Actions
+(workflow: `.github/workflows/deploy-homolog.yml`). O processo conecta ao
+host `http-dev-89` para pull/deploy de mudanças.
+
+### Conectividade GitHub → http-dev-89
+
+| Item | Valor |
+|---|---|
+| **Host destino** | http-dev-89 (172.16.0.89) |
+| **Porta firewall (OPNsense)** | 8198 |
+| **Porta local (SSH)** | 22 |
+| **Mapeamento** | Redirecionamento: firewall 8198 → host 22 |
+| **Autenticação** | Chave SSH (ed25519) |
+
+### Chave pública (deploy)
+
+Chave pública autorizada em `~/.ssh/authorized_keys` do usuário `root`:
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBwfXqBiCFJYByk32SLI+u3getjVa9M7iA7qShx6bBLO root@http-dev-89
+```

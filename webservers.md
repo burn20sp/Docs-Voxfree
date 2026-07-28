@@ -31,6 +31,15 @@
 - **Processador PHP**: php-fpm (FastCGI Process Manager)
 - **Raiz da aplicação**: `/var/www/html`
 
+## Sessions (Redis)
+
+As sessões do PHP são registradas em um servidor Redis centralizado:
+
+| Item | Valor |
+|---|---|
+| **Redis Server** | 172.16.0.81 |
+| **Escopo** | Compartilhado entre produção e homologação |
+
 ## Storage compartilhado (NFS)
 
 Os 4 hosts compartilham o código e arquivos da aplicação via NFS, garantindo
