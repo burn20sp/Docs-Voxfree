@@ -8,4 +8,5 @@ apoiar manutenção, rotina de start/stop, deploy e processos operacionais.
 | Nome | Descrição | IP |
 |---|---|---|
 | [Firewall/HAProxy](./firewall-haproxy.md) | Responsável pelo roteamento HTTP baseado em domínio | 172.16.0.1 |
+| [Servidores Web](./webservers.md) | Hosts de aplicação (PHP/nginx) — 4 hosts balanceados | 172.16.0.82-85 |
 | [Rundeck](./rundeck.md) | Servidor de CRON (agendamento e execução de tarefas) | 172.16.0.165 |
