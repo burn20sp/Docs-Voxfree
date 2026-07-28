@@ -11,4 +11,5 @@ apoiar manutenção, rotina de start/stop, deploy e processos operacionais.
 | [Servidores Web](./webservers.md) | Hosts de aplicação (PHP/nginx) — 4 hosts balanceados | 172.16.0.82-85 |
 | [Web Homologação](./webservers-homolog.md) | Ambiente de teste (1 host) | 172.16.0.89 |
 | [WebSocket](./websocket.md) | Presença e roteamento de mensagens para agentes (ativo-passivo) | 172.16.0.101-102 |
+| [Redis](./redis.md) | Cache centralizado e sessions (PHP/WebSocket) | 172.16.0.81 |
 | [Rundeck](./rundeck.md) | Servidor de CRON (agendamento e execução de tarefas) | 172.16.0.165 |
