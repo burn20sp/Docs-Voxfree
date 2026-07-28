@@ -39,10 +39,10 @@ sincronismo:
 
 ### Configuração de montagem
 
-Arquivo `/etc/fstab` em cada host (exemplo):
+Arquivo `/etc/fstab` em cada host:
 
 ```
-172.16.0.91:/data /var/www/html nfs defaults 0 0
+172.16.0.91:/data                         /var/www/html   nfs     rw,vers=4,defaults 0 0
 ```
 
 Sem essa montagem automática, a aplicação não funciona — o diretório
@@ -58,16 +58,42 @@ Serviços principais (por host):
 Reiniciar serviço(s):
 ```bash
 systemctl restart nginx
-systemctl restart php-fpm
+systemctl restart php7.4-fpm.service
 ```
 
 Ou ambos:
 ```bash
-systemctl restart nginx php-fpm
+systemctl restart nginx php7.4-fpm.service
 ```
 
-## Referências
+## Deploy automático (GitHub Actions)
 
-- Documentação oficial nginx: <https://nginx.org/en/docs/>
-- Documentação oficial PHP-FPM: <https://www.php.net/manual/en/install.fpm.php>
-- Documentação NFS: <https://wiki.linux-nfs.org/>
+A aplicação é versionada no GitHub, com deploy automático via GitHub Actions
+(workflow: `.github/workflows/deploy-prod.yml`). O processo conecta ao
+primeiro servidor web (`http-web-82`) para pull/deploy de mudanças.
+
+### Conectividade GitHub → http-web-82
+
+| Item | Valor |
+|---|---|
+| **Host destino** | http-web-82 (172.16.0.82) |
+| **Porta firewall (OPNsense)** | 8197 |
+| **Porta local (SSH)** | 22 |
+| **Mapeamento** | Redirecionamento: firewall 8197 → host 22 |
+| **Autenticação** | Chave SSH (ed25519) |
+
+### Chave pública (deploy)
+
+Chave pública autorizada em `~/.ssh/authorized_keys` do usuário que executa
+o deploy (ou root):
+
+```
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJCMuPLcz9D2lXdRSFDfrLYSWLJRuUaQen8tg0sJGmCC github_deploy_key
+```
+
+## Health-check
+
+O HAProxy realiza health-check acessando `http://<IP-HOST>/health` em cada
+servidor. A resposta esperada é o **status do php-fpm** — se php-fpm está
+respondendo corretamente, o host é marcado como ativo no pool de balanceamento.
+
