@@ -12,12 +12,8 @@
 
 ## Credenciais de acesso
 
-> ⚠️ **Pendência de segurança**: o login é `admin`, com a senha ainda no
-> padrão de fábrica (`admin`), sem alteração. Não gravei a senha em texto
-> plano aqui — trocar essa senha e/ou registrá-la em um cofre de segredos é
-> uma ação recomendada para o próximo administrador. *(Se preferir manter a
-> senha padrão documentada literalmente neste arquivo mesmo assim, me
-> avise.)*
+ - **Usuário:** admin
+ - **Senha:** admin
 
 ## Infraestrutura / arquivos
 
