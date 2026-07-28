@@ -1,8 +1,7 @@
 # Servidor NFS com Cluster (Pacemaker/Corosync)
 
-Storage compartilhado para [Servidores Web](./webservers.md) e
-[Web Homologação](./webservers-homolog.md), gerenciado por cluster de alta
-disponibilidade.
+Storage centralizado para [Servidores Web](./webservers.md), gerenciado por
+cluster de alta disponibilidade (Pacemaker/Corosync).
 
 ## Visão geral
 
@@ -14,7 +13,7 @@ disponibilidade.
 | **VIP (Virtual IP)** | 172.16.0.91 |
 | **Disco compartilhado** | VMware Shared Mode, montado em `/data` |
 | **Capacidade** | 2TB |
-| **Consumidores** | Servidores Web (172.16.0.82-85) e Homologação (172.16.0.89) |
+| **Consumidores** | Servidores Web (172.16.0.82-85) |
 
 ## Hosts
 
@@ -37,7 +36,7 @@ Serviços gerenciados (3 recursos):
 |---|---|
 | **IP** | 172.16.0.91 |
 | **Alocação** | Dinâmica (segue o host ativo) |
-| **Função** | Ponto único de conexão para clientes (Web, Homologação) |
+| **Função** | Ponto único de conexão para clientes (Servidores Web) |
 
 Clientes conectam via VIP, não aos IPs individuais dos nós. Em failover, VIP
 migra automaticamente.
@@ -46,9 +45,8 @@ migra automaticamente.
 
 | Item | Valor |
 |---|---|
-| **Device** | — |
-| **Filesystem** | — |
 | **Mount point** | `/data` |
+| **Capacidade** | 2TB |
 | **Modo VMware** | Shared (acesso exclusivo por um host) |
 | **Sincronismo** | Apenas o nó ativo tem acesso à unidade |
 
@@ -93,39 +91,25 @@ Comando pode ser executado em **qualquer um** dos hosts.
 
 ### Logs do cluster
 
-— (locação a ser confirmada)
+**Pacemaker**:
+```bash
+tail /var/log/pacemaker/pacemaker.log
+```
 
-## Manutenção
-
-### Failover manual (forçar switch)
-
-— (procedimento a ser documentado)
-
-### Sincronização de dados
-
-— (política/rotina a ser documentada)
+**Corosync**:
+```bash
+tail /var/log/corosync/corosync.log
+```
 
 ## Conexão dos clientes
 
-Clientes (Web, Homologação) conectam via **VIP `172.16.0.91`**:
+Clientes (Servidores Web) conectam via **VIP `172.16.0.91`**:
 
 ```bash
-# Em /etc/fstab dos servidores web/homologação:
+# Em /etc/fstab dos servidores web:
 172.16.0.91:/data                         /var/www/html   nfs     rw,vers=4,defaults 0 0
 ```
 
 Failover transparente: se um nó cai, Pacemaker move VIP + Storage + NFS para
 o outro nó, e clientes continuam acessando `/var/www/html` via VIP sem
 interrupção.
-
-## Questões em aberto
-
-Informações a serem completadas:
-- [ ] Device exato do disco compartilhado
-- [ ] Tipo de filesystem
-- [ ] Espaço atual utilizado (dos 2TB)
-- [ ] Versões Pacemaker/Corosync
-- [ ] Locação de logs do cluster
-- [ ] Procedimento de failover manual
-- [ ] Rotina de sincronização/backup de dados
-- [ ] Monitoramento/alertas configurados
