@@ -20,6 +20,12 @@ Execução em ativo-passivo, com failover automático via HAProxy.
 - **GitHub**: <https://github.com/Voxfree/APP-Websocket>
 - **README**: <https://github.com/Voxfree/APP-Websocket/blob/main/README.md>
 
+## Instalação
+
+O processo de instalação (PHP 8.5, Composer, dependências, systemd, logrotate,
+HAProxy) está descrito em detalhes no
+[README oficial do repositório](https://github.com/Voxfree/APP-Websocket#instalação-debian-12-manual-nos-dois-hosts).
+
 ## Hosts
 
 | Hostname | IP | Modo |
