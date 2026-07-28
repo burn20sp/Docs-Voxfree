@@ -9,6 +9,12 @@
 | **Plataforma** | PHP 7.4.33 + nginx + php-fpm |
 | **Storage** | Compartilhado via NFS (sincronismo entre hosts) |
 
+## Repositório
+
+- **GitHub**: <https://github.com/Voxfree/APP>
+- **Branch de produção**: `main` (deploy automático, nunca editar diretamente)
+- **Branches adicionais**: criadas para diferentes etapas de atualizações e correções
+
 ## Hosts
 
 | Hostname | IP |

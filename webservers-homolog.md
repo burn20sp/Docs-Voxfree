@@ -20,7 +20,8 @@ da branch `homolog` do repositório.
 ## Repositório
 
 - **GitHub**: <https://github.com/Voxfree/APP>
-- **Branch de deploy**: `homolog`
+- **Branch de homologação**: `homolog` (deploy automático, nunca editar diretamente)
+- **Branches adicionais**: criadas para diferentes etapas de atualizações e correções
 - **Workflow**: `.github/workflows/deploy-homolog.yml`
 
 ## Host

@@ -3,14 +3,6 @@
 Documentação consultiva das aplicações e serviços de infraestrutura, para
 apoiar manutenção, rotina de start/stop, deploy e processos operacionais.
 
-## Repositório da Aplicação
-
-- **GitHub**: <https://github.com/Voxfree/APP>
-- **Branches principais**:
-  - `main` — deploy automático para **produção** (nunca editar diretamente)
-  - `homolog` — deploy automático para **homologação** (nunca editar diretamente)
-  - Branches adicionais — criadas para diferentes etapas de atualizações e correções
-
 ## Aplicações
 
 | Nome | Descrição | IP |
