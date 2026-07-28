@@ -8,9 +8,10 @@ da branch `homolog` do repositório.
 
 | Campo | Valor |
 |---|---|
-| **Função** | Hosts de aplicação — ambiente de homologação |
-| **Quantidade** | 4 hosts |
+| **Função** | Host de aplicação — ambiente de homologação (teste) |
+| **Quantidade** | 1 host |
 | **Plataforma** | PHP 7.4.33 + nginx + php-fpm |
+| **IP** | 172.16.0.89 |
 | **Branch** | `homolog` (deploy automático) |
 
 > **Branch protection**: a branch `homolog` nunca deve ser editada diretamente.
@@ -22,16 +23,11 @@ da branch `homolog` do repositório.
 - **Branch de deploy**: `homolog`
 - **Workflow**: `.github/workflows/deploy-homolog.yml`
 
-## Hosts
+## Host
 
 | Hostname | IP |
 |---|---|
-| `http-homolog-82` | 172.16.0.X |
-| `http-homolog-83` | 172.16.0.X |
-| `http-homolog-84` | 172.16.0.X |
-| `http-homolog-85` | 172.16.0.X |
-
-> IPs a serem confirmados/documentados.
+| `http-dev-89` | 172.16.0.89 |
 
 ## Configuração
 
@@ -51,5 +47,5 @@ automaticamente o workflow de deploy, atualizando os servidores de homologação
 
 - **Ambiente**: teste/validação antes de ir para `main`
 - **Branch**: `homolog` (nunca editar diretamente) vs `main`
-- **Hosts**: separados (homolog-82-85 vs web-82-85)
+- **Hosts**: 1 host (http-dev-89) vs 4 hosts balanceados (web-82-85)
 - **Tráfego**: volume reduzido (ambiente de teste)
