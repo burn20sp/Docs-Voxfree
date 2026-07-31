@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Firewall / HAProxy
 
 ## Índice
@@ -19,6 +21,16 @@
 | **Descrição** | Responsável pelo roteamento HTTP baseado em domínio |
 | **IP** | 172.16.0.1 |
 | **Plataforma** | OPNsense (firewall geral) + plugin `os-haproxy` (versão 5.1) |
+
+## Diagrama do fluxo completo (infraestrutura)
+
+![Fluxo HTTP: Firewall → HAProxy → Servidores Web → NFS HA / Redis](./http_diagram.png)
+
+Visão geral do fluxo de uma requisição HTTP através da infraestrutura:
+Firewall/HAProxy → [Servidores Web](./webservers.md) → [NFS com HA](./nfs.md)
+(storage) / [Redis](./redis.md) (sessions). O fluxo lógico interno das
+regras do HAProxy (Public Service, Rules, Conditions, Backend) está
+detalhado na seção seguinte.
 
 ## Conceitos e componentes do plugin
 

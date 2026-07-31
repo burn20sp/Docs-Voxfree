@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Servidor NFS com Cluster (Pacemaker/Corosync)
 
 Storage centralizado para [Servidores Web](./webservers.md), gerenciado por
@@ -14,6 +16,14 @@ cluster de alta disponibilidade (Pacemaker/Corosync).
 | **Disco compartilhado** | VMware Shared Mode, montado em `/data` |
 | **Capacidade** | 2TB |
 | **Consumidores** | Servidores Web (172.16.0.82-85) |
+
+## Diagrama do fluxo completo (infraestrutura)
+
+![Fluxo HTTP: Firewall → HAProxy → Servidores Web → NFS HA / Redis](./http_diagram.png)
+
+Posição do NFS no fluxo: os [Servidores Web](./webservers.md) montam o
+storage compartilhado deste cluster via VIP, após receberem a requisição do
+[Firewall/HAProxy](./firewall-haproxy.md).
 
 ## Hosts
 

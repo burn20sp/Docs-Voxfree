@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Redis
 
 Cache centralizado e storage de sessões para as aplicações (Web, Homologação,
@@ -12,6 +14,14 @@ WebSocket).
 | **IP** | 172.16.0.81 |
 | **Versão** | 7.0.15 |
 | **Porta** | 6379 (padrão) |
+
+## Diagrama do fluxo completo (infraestrutura)
+
+![Fluxo HTTP: Firewall → HAProxy → Servidores Web → NFS HA / Redis](./http_diagram.png)
+
+Posição do Redis no fluxo: os [Servidores Web](./webservers.md) gravam
+sessions aqui após receberem a requisição do
+[Firewall/HAProxy](./firewall-haproxy.md).
 
 ## Aplicações que usam
 

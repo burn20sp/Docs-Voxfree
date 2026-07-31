@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Servidores Web
 
 ## Visão geral
@@ -8,6 +10,15 @@
 | **Quantidade** | 4 hosts |
 | **Plataforma** | PHP 7.4.33 + nginx + php-fpm |
 | **Storage** | Compartilhado via NFS (sincronismo entre hosts) |
+
+## Diagrama do fluxo completo (infraestrutura)
+
+![Fluxo HTTP: Firewall → HAProxy → Servidores Web → NFS HA / Redis](./http_diagram.png)
+
+Posição dos Servidores Web no fluxo: recebem requisições do
+[Firewall/HAProxy](./firewall-haproxy.md), servem a aplicação (NGINX +
+PHP-FPM), usam [NFS com HA](./nfs.md) como storage compartilhado e
+[Redis](./redis.md) para sessions.
 
 ## Repositório
 
