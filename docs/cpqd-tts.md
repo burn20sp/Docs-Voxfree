@@ -85,9 +85,10 @@ Arquivos dos instaladores utilizados: `/opt/cpqd/tts`
 
 ## Acesso ao host
 
-Login inicial é feito com o usuário `user` (sem privilégios administrativos).
-Para tarefas administrativas, seguir usando `sudo` ou trocar para root
-(`su -`).
+Este host **não aceita login root direto via SSH**. O acesso deve ser feito
+primeiro com o usuário `user` (sem privilégios administrativos); a partir
+dele, se necessário, usar `sudo` ou trocar para root (`su -`). A senha do
+usuário `user` é a mesma senha padrão utilizada nos demais hosts.
 
 ## Notas operacionais
 
