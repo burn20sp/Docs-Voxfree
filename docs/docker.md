@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Hosts Docker
 
 Hosts dedicados a rodar aplicações diversas em containers Docker. Cada host é
@@ -36,8 +38,16 @@ Presentes em `/root/docker-services/`, mas sem execução no momento:
 
 ## docker-02
 
-Aplicações a documentar.
+### Aplicações em execução
+
+| Aplicação     | Diretório base                    | Compose | Containers | Descrição                                                                                                    |
+| ------------- | --------------------------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------- |
+| **waha-plus** | `/root/docker-services/waha-plus` | Sim     | 3          | Plataforma de conexão para WhatsApp — **ambiente de produção**. Ver [Waha](./waha.md) |
 
 ## docker-03
 
-Aplicações a documentar.
+### Aplicações em execução
+
+| Aplicação             | Diretório base                    | Compose | Containers | Descrição                                                                                                        |
+| --------------------- | --------------------------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------- |
+| **waha-plus (worker)** | `/root/docker-services/waha-plus` | Sim     | 1          | Worker do Waha — **ambiente de produção**. Ver [Waha](./waha.md) |
