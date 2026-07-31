@@ -1,3 +1,5 @@
+[← README](../README.md)
+
 # Servidores WebSocket
 
 Servidor WebSocket de presença e roteamento de mensagens para agentes.
