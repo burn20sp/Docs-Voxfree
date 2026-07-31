@@ -14,3 +14,4 @@ apoiar manutenção, rotina de start/stop, deploy e processos operacionais.
 | [NFS com HA](./nfs.md) | Storage centralizado (Pacemaker/Corosync, 2TB) | 172.16.0.91 (VIP) |
 | [Redis](./redis.md) | Cache centralizado e sessions (PHP/WebSocket) | 172.16.0.81 |
 | [Rundeck](./rundeck.md) | Servidor de CRON (agendamento e execução de tarefas) | 172.16.0.165 |
+| [MongoDB](./mongodb.md) | Banco de dados NoSQL, cluster ReplicaSet (Tráfego/Gateways VoIP) | 172.16.0.125-128 |
