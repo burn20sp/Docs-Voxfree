@@ -15,3 +15,5 @@ apoiar manutenção, rotina de start/stop, deploy e processos operacionais.
 | [Redis](./redis.md) | Cache centralizado e sessions (PHP/WebSocket) | 172.16.0.81 |
 | [Rundeck](./rundeck.md) | Servidor de CRON (agendamento e execução de tarefas) | 172.16.0.165 |
 | [MongoDB](./mongodb.md) | Banco de dados NoSQL, cluster ReplicaSet (Tráfego/Gateways VoIP) | 172.16.0.125-128 |
+| [Hosts Docker](./docker.md) | Hosts independentes para aplicações diversas via Docker Compose | 172.16.0.165-167 |
+| [Waha](./waha.md) | Plataforma de conexão para WhatsApp (documentação em construção) | 172.16.0.165 |

@@ -8,7 +8,7 @@
 | **Descrição** | Servidor de CRON — agendamento e execução de tarefas ([rundeck.com](https://www.rundeck.com/)) |
 | **IP** | 172.16.0.165 |
 | **Acesso** | <http://172.16.0.165:4440> |
-| **Plataforma** | Docker, no servidor `docker-01` (172.16.0.165) |
+| **Plataforma** | Docker, no servidor [`docker-01`](./docker.md) (172.16.0.165) |
 
 ## Credenciais de acesso
 
@@ -55,3 +55,4 @@ segundo plano, que antes rodavam no `web28`.
 ## Referências
 
 - Documentação oficial: <https://docs.rundeck.com/>
+- [Hosts Docker](./docker.md) — demais aplicações rodando em `docker-01`
